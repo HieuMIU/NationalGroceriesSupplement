@@ -12,7 +12,6 @@ import edu.miu.cs.cs489appsd.lab1a.productmgmtapp.model.Product;
 import edu.miu.cs.cs489appsd.lab1a.productmgmtapp.seeddata.DataAccess;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
