@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductMgmtApp {
 
@@ -26,7 +27,9 @@ public class ProductMgmtApp {
 
     private static void printProducts(List<Product> productList) {
 
-        Collections.sort(productList, new ProductComparator());
+        List<Product> sortedProductList = productList.stream()
+                .sorted(new ProductComparator())
+                .collect(Collectors.toList());
 
         //Print Product in Json Format
         ObjectMapper objectMapper = new ObjectMapper();
@@ -35,7 +38,7 @@ public class ProductMgmtApp {
 
         System.out.println("Printed in JSON Format");
         try {
-            String jsonText = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productList);
+            String jsonText = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sortedProductList);
             System.out.println(jsonText);
         } catch (JsonProcessingException e) {
             System.out.println("Something wrong!");
@@ -47,7 +50,7 @@ public class ProductMgmtApp {
         xmlMapper.registerModule(new JavaTimeModule());
         System.out.println("Printed in XML Format");
         try {
-            String xmlText = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(new ProductList(productList));
+            String xmlText = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(new ProductList(sortedProductList));
             System.out.println(xmlText);
         } catch (JsonProcessingException e) {
             System.out.println("Something wrong!");
@@ -61,7 +64,7 @@ public class ProductMgmtApp {
         CsvSchema csvSchema = csvMapper.schemaFor(Product.class);
         System.out.println("Printed in CSV Format");
         try {
-            String csvText = csvMapper.writer(csvSchema).writeValueAsString(productList);
+            String csvText = csvMapper.writer(csvSchema).writeValueAsString(sortedProductList);
             System.out.println(csvText);
         } catch (JsonProcessingException e) {
             System.out.println("Something wrong!");
